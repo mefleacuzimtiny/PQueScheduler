@@ -12,13 +12,21 @@ public:
     PrtQueue(int lvls)
         : levels(lvls)
         , pQ(new Queue<ItemType>[levels]) {}
+    PrtQueue(int lvls, int qSize)
+        : levels(lvls)
+        , queSize(qSize)
+        , pQ(new Queue<ItemType>[levels]) {
+        for (int i = 0; i < levels; i++) {
+            pQ[i] = Queue<ItemType>(queSize);
+        }
+    }
     ~PrtQueue();
 
     int IsFull() const;
     int IsEmpty() const;
 
-    // Should call Que class insert() to insert item at p priority level
-    void Insert(ItemType newItem, int p);
+    // Should call Que class insert() to insert item at prt priority level
+    void Insert(ItemType newItem, int prt);
 
     // Should call Que class Remove() to remove highest priority item
     void Remove(ItemType& item);
@@ -26,6 +34,7 @@ public:
 
 private:
     int levels;
+    int queSize;
     Queue <ItemType>* pQ;
 };
 

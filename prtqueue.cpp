@@ -1,4 +1,5 @@
 #include "prtqueue.h"
+#include "process.h"
 #include <iostream>
 
 template<class ItemType>
@@ -29,13 +30,13 @@ int PrtQueue<ItemType>::IsEmpty() const {
 }
 
 template<class ItemType>
-void PrtQueue<ItemType>::Insert(ItemType newItem, int p) {
+void PrtQueue<ItemType>::Insert(ItemType newItem, int prt) {
     // should insert item at p priority level
-    if (p < 0 || p >= levels) { // check bounds properly
+    if (prt < 0 || prt >= levels) { // check bounds properly
         std::cout << "Priority out of bounds" << std::endl;
         return;
     }
-    pQ[p].insert(newItem);
+    pQ[prt].insert(newItem);
 }
 
 template<class ItemType>
@@ -59,3 +60,7 @@ void PrtQueue<ItemType>::Remove(ItemType& item, int prt) {
     }
     pQ[prt].remove(item);
 }
+
+
+
+template class PrtQueue<Process>;

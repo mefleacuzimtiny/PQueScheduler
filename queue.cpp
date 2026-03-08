@@ -1,4 +1,5 @@
 #include "queue.h"
+#include "process.h"
 
 #include <iostream>
 
@@ -58,3 +59,6 @@ void Queue<Type>::remove(Type &removedItem) {
     front = (front + 1) % maxQue;   // circular increment
     count--;
 }
+
+
+template class Queue<Process>;
