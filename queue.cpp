@@ -1,7 +1,6 @@
 #include "queue.h"
 
 #include <iostream>
-using namespace std;
 
 template<class Type>
 Queue<Type>::Queue() {
@@ -39,7 +38,7 @@ bool Queue<Type>::isEmpty() const {
 template<class Type>
 void Queue<Type>::insert(const Type &newItem) {
     if (isFull()) {
-        cout << "Queue is Full!" << endl;
+        std::cout << "Queue is Full!" << '\n';
         return;
     }
 
@@ -51,7 +50,7 @@ void Queue<Type>::insert(const Type &newItem) {
 template<class Type>
 void Queue<Type>::remove(Type &removedItem) {
     if (isEmpty()) {
-        cout << "Queue is Empty!" << endl;
+        std::cout << "Queue is Empty!" << '\n';
         return;
     }
 

@@ -1,8 +1,6 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-using namespace std;
-
 template <class Type>
 class Queue {
 private:

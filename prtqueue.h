@@ -1,7 +1,6 @@
 #ifndef PRTQUEUE_H
 #define PRTQUEUE_H
 
-
 #include "queue.h"
 template<class ItemType>
 

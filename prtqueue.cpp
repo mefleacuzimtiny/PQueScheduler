@@ -1,7 +1,5 @@
 #include "prtqueue.h"
-
 #include <iostream>
-using namespace std;
 
 template<class ItemType>
 PrtQueue<ItemType>::~PrtQueue() {
@@ -11,8 +9,8 @@ PrtQueue<ItemType>::~PrtQueue() {
 template<class ItemType>
 int PrtQueue<ItemType>::IsFull() const {
     // The priority queue is full only if all sub-queues are full.
-    for (int i=0; i < levels; i++) {
-        if (pQ[i].isFull()) {
+    for (int i = 0; i < levels; i++) {
+        if (!pQ[i].isFull()) {  // if any sub-queue is not full, the whole p-queue is not full
             return false;
         }
     }
@@ -22,8 +20,8 @@ int PrtQueue<ItemType>::IsFull() const {
 template<class ItemType>
 int PrtQueue<ItemType>::IsEmpty() const {
     // if all sub-queues are empty, the whole p-queue is empty
-    for (int i=0; i < levels; i++) {
-        if(!pQ[i].isEmpty()) {
+    for (int i = 0; i < levels; i++) {
+        if (!pQ[i].isEmpty()) {
             return false;
         }
     }
@@ -32,31 +30,31 @@ int PrtQueue<ItemType>::IsEmpty() const {
 
 template<class ItemType>
 void PrtQueue<ItemType>::Insert(ItemType newItem, int p) {
-    // Should insert item at p priority level
-    if(p > levels){
-        cout << "Maximum ten priority levels" << endl;
+    // should insert item at p priority level
+    if (p < 0 || p >= levels) { // check bounds properly
+        std::cout << "Priority out of bounds" << std::endl;
         return;
     }
     pQ[p].insert(newItem);
 }
 
-
 template<class ItemType>
 void PrtQueue<ItemType>::Remove(ItemType& item) {
-    // Should remove highest priority item
-    for (int i=0; i < levels; i++) {
-        if(!pQ[i].isEmpty()) {
+    // should remove highest priority item
+    // assuming higher index = higher priority
+    for (int i = levels - 1; i >= 0; i--) {
+        if (!pQ[i].isEmpty()) {
             pQ[i].remove(item);
             return;
         }
     }
 }
 
-// removal overloaded for specific priority level
 template<class ItemType>
 void PrtQueue<ItemType>::Remove(ItemType& item, int prt) {
-    if(prt > levels - 1){
-        cout << "Maximum ten priority levels" << endl;
+    // removal overloaded for specific priority level
+    if (prt < 0 || prt >= levels) {
+        std::cout << "Priority out of bounds" << std::endl;
         return;
     }
     pQ[prt].remove(item);
