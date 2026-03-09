@@ -4,46 +4,58 @@
 #include <fstream>
 #include <iomanip>
 
-Scheduler::Scheduler(int levels, int queSize) {}
-
+Scheduler::Scheduler(int levels, int queSize)
+    : processQueue(levels, queSize)
+    , totalProcesses(0)
+    , currentTime(0) {
+}
 
 void Scheduler::loadFromFile(const std::string& filename) {
     std::ifstream file(filename);
 
     if (!file) {
         std::cout << "Failed to open file: " << filename << std::endl;
-        return;
+        exit(1);
     }
 
     std::string header;
     std::getline(file, header); // skip CSV header
 
     Process prc;
-
     while (file >> prc) {
         enQueProcess(prc);
+        std::cout << "Loaded: " << prc << std::endl;
         totalProcesses++;
     }
 
     file.close();
 }
 
-// Enqueue a process into the priority queue
+// void Scheduler::run() {
+
+// }
+
+
+
 void Scheduler::enQueProcess(Process prc) {
-    // insert into task_que at the process's priority level
-    task_que.Insert(prc, prc.getPrtLvl());
+    // insert arriving task into task_que at the process's priority level
+    processQueue.Insert(prc, prc.getPrtLvl());
 }
 
-// Run the simulation
+
+void Scheduler::execute(Process &prc) {
+    prc.execQuantums(1);
+}
+
 void Scheduler::run() {
     currentTime = 0;
     completed.clear();
 
     Process prc;
 
-    while (!task_que.IsEmpty()) {
+    while (!processQueue.IsEmpty()) {
         // remove the highest priority process
-        task_que.Remove(prc);
+        processQueue.Remove(prc);
 
         // calculate start time
         int startTime = std::max(currentTime, prc.getTimeArrival());
@@ -61,41 +73,41 @@ void Scheduler::run() {
 
 // Print results & averages
 void Scheduler::printResults() const {
-    double totalWT = 0;
-    double totalTAT = 0;
+    double totalWaitingTime = 0;
+    double totalTurnaroundTime = 0;
 
-    std::cout << std::setw(5) << "PID"
-              << std::setw(10) << "AT"
-              << std::setw(10) << "BT"
-              << std::setw(10) << "PRT"
-              << std::setw(10) << "ST"
-              << std::setw(10) << "CT"
-              << std::setw(10) << "WT"
-              << std::setw(10) << "TAT"
+    std::cout << std::setw(5) << "Process ID"
+              << std::setw(20) << "Arrival Time"
+              << std::setw(20) << "Burst Time"
+              << std::setw(20) << "Priority Level"
+              << std::setw(20) << "Start Time"
+              << std::setw(20) << "Completion Time"
+              << std::setw(20) << "Waiting Time"
+              << std::setw(20) << "Turnaround Time"
               << "\n";
 
-    for (const auto& prc : completed) {
-        int st = prc.timeStart();
-        int ct = prc.timeFinish();
-        int wt = prc.timeWaiting();
-        int tat = prc.timeTurnaround();
+    for (const Process& process : completed) {
+        int startTime = process.timeStart();
+        int completionTime = process.timeFinish();
+        int waitingTime = process.timeWaiting();
+        int turnaroundTime = process.timeTurnaround();
 
-        totalWT += wt;
-        totalTAT += tat;
+        totalWaitingTime += waitingTime;
+        totalTurnaroundTime += turnaroundTime;
 
-        std::cout << std::setw(5) << "P" + std::to_string(prc.getPID())
-                  << std::setw(10) << prc.getTimeArrival()
-                  << std::setw(10) << prc.getTimeExecution()
-                  << std::setw(10) << prc.getPrtLvl()
-                  << std::setw(10) << st
-                  << std::setw(10) << ct
-                  << std::setw(10) << wt
-                  << std::setw(10) << tat
+        std::cout << std::setw(5) << "P" + std::to_string(process.getPID())
+                  << std::setw(20) << process.getTimeArrival()
+                  << std::setw(20) << process.getTimeExecution()
+                  << std::setw(20) << process.getPrtLvl()
+                  << std::setw(20) << startTime
+                  << std::setw(20) << completionTime
+                  << std::setw(20) << waitingTime
+                  << std::setw(20) << turnaroundTime
                   << "\n";
     }
 
     if (!completed.empty()) {
-        std::cout << "\nAverage Waiting Time: " << (totalWT / completed.size()) << "\n";
-        std::cout << "Average Turnaround Time: " << (totalTAT / completed.size()) << "\n";
+        std::cout << "\nAverage Waiting Time: " << (totalWaitingTime / completed.size()) << "\n";
+        std::cout << "Average Turnaround Time: " << (totalTurnaroundTime / completed.size()) << "\n";
     }
 }

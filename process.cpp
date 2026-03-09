@@ -1,5 +1,6 @@
 #include "process.h"
 #include <sstream>
+#include <iomanip>
 
 int Process::timeStart() const {
     return timeArrival; // assuming no stored waiting time
@@ -48,7 +49,14 @@ std::istream& operator>>(std::istream& in, Process& p) {
     return in;
 }
 
+std::ostream& operator<<(std::ostream& out, const Process& p) {
+    out << std::setw(5)  << "P" << p.getPID()  << ","  // Process ID
+        << std::setw(15) << p.getTimeArrival() << ","  // Arrival time
+        << std::setw(15) << p.getTimeExecution() << "," // Execution time
+        << std::setw(15) << p.getPrtLvl();            // Priority level
 
+    return out;
+}
 
 int Process::getPID() const {
     return PID;
@@ -70,8 +78,8 @@ int Process::getTimeExecution() const {
     return timeExecution;
 }
 
-void Process::setTimeExecution(int newTimeExecution) {
-    timeExecution = newTimeExecution;
+void Process::execQuantums(int quantums) {
+    timeExecution -= quantums;
 }
 
 int Process::getPrtLvl() const {

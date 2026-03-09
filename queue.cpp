@@ -1,7 +1,56 @@
+#ifndef PQUESCHEDULER_IMPL_QUEUE
+#define PQUESCHEDULER_IMPL_QUEUE
+
+
 #include "queue.h"
 #include "process.h"
 
 #include <iostream>
+
+template<class Type>
+Queue<Type>::Queue(const Queue& other) {
+    // 1. Copy the primitive metadata
+    maxQue = other.maxQue;
+    count = other.count;
+    front = other.front;
+    rear = other.rear;
+
+    // 2. Allocate NEW memory for this instance
+    items = new Type[maxQue];
+
+    // 3. Deep copy the actual data from the other queue
+    // We copy the entire underlying array so the front/rear indices stay valid
+    for (int i = 0; i < maxQue; i++) {
+        items[i] = other.items[i];
+    }
+}
+
+template<class Type>
+Queue<Type>& Queue<Type>::operator=(const Queue<Type>& other) {
+    // 1. Self-assignment check
+    // If we try to assign a queue to itself, do nothing.
+    if (this == &other) {
+        return *this;
+    }
+
+    // 2. Clean up existing resources
+    // Prevent memory leaks by deleting the old 'items' array.
+    delete[] items;
+
+    // 3. Copy primitive metadata
+    maxQue = other.maxQue;
+    count = other.count;
+    front = other.front;
+    rear = other.rear;
+
+    // 4. Allocate NEW memory and deep copy
+    items = new Type[maxQue];
+    for (int i = 0; i < maxQue; i++) {
+        items[i] = other.items[i];
+    }
+
+    return *this;
+}
 
 template<class Type>
 Queue<Type>::Queue() {
@@ -37,28 +86,31 @@ bool Queue<Type>::isEmpty() const {
 }
 
 template<class Type>
-void Queue<Type>::insert(const Type &newItem) {
+int Queue<Type>::insert(const Type &newItem) {
     if (isFull()) {
         std::cout << "Queue is Full!" << '\n';
-        return;
+        return 0;
     }
 
     rear = (rear + 1) % maxQue;
     items[rear] = newItem;
     count++;
+    return 1;
 }
 
 template<class Type>
-void Queue<Type>::remove(Type &removedItem) {
+int Queue<Type>::remove(Type &removedItem) {
     if (isEmpty()) {
         std::cout << "Queue is Empty!" << '\n';
-        return;
+        return 0;
     }
 
     removedItem = items[front];
     front = (front + 1) % maxQue;   // circular increment
     count--;
+    return 1;
 }
 
 
-template class Queue<Process>;
+// template class Queue<Process>;
+#endif

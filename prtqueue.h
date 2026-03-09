@@ -6,6 +6,9 @@ template<class ItemType>
 
 class PrtQueue {
 public:
+    // PrtQueue(const PrtQueue& other) = delete;
+    // PrtQueue& operator=(const PrtQueue& other) = delete;
+
     PrtQueue()
         : levels(10)
         , pQ(new Queue<ItemType>[levels]) {}
@@ -20,7 +23,10 @@ public:
             pQ[i] = Queue<ItemType>(queSize);
         }
     }
+
+    PrtQueue(const PrtQueue &other);
     ~PrtQueue();
+    PrtQueue &operator=(const PrtQueue &other);
 
     int IsFull() const;
     int IsEmpty() const;
@@ -33,9 +39,13 @@ public:
     void Remove(ItemType& item, int prt);		// removes from a specific level
 
 private:
+
     int levels;
     int queSize;
     Queue <ItemType>* pQ;
 };
+
+
+#include "prtqueue.cpp"
 
 #endif // PRTQUEUE_H

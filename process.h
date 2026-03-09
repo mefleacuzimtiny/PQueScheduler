@@ -16,23 +16,15 @@ public:
     int timeWaiting() const;
     int timeTurnaround() const;
 
-    // // Overload for the Priority Queue (Higher priority value = higher precedence)
-    // bool operator<(const Process& other) const {
-    //     if (prtLvl == other.prtLvl) {
-    //         return timeArrival > other.timeArrival; // Tie-breaker: First Come First Served
-    //     }
-    //     return prtLvl < other.prtLvl;
-    // }
-
     friend std::istream& operator>>(std::istream& in, Process& p);
-
+    friend std::ostream& operator<<(std::ostream& out, const Process& p);
 
     int getPID() const;
     void setPID(int newPID);
     int getTimeArrival() const;
     void setTimeArrival(int newTimeArrival);
     int getTimeExecution() const;
-    void setTimeExecution(int newTimeExecution);
+    void execQuantums(int quantums);
     int getPrtLvl() const;
     void setPrtLvl(int newPrtLvl);
 };

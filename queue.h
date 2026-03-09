@@ -10,11 +10,17 @@ private:
     int count;
     Type* items;
 
+
 public:
+    // Queue& operator=(const Queue& other) = delete;  // explicitly prohibit = operator
 
     Queue();
 
     Queue(int max);
+
+    Queue(const Queue& other);             // explicitly prohibit copy constructor
+
+    Queue& operator=(const Queue& other);
 
     ~Queue();
 
@@ -22,9 +28,11 @@ public:
 
     bool isEmpty() const;
 
-    void insert(const Type& newItem);
+    int insert(const Type& newItem);
 
-    void remove(Type& removedItem);
+    int remove(Type& removedItem);
 };
+
+#include "queue.cpp"
 
 #endif // QUEUE_H

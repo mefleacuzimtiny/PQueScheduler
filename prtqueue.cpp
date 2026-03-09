@@ -1,11 +1,42 @@
+#ifndef PQUESCHEDULER_IMPL_PRTQUEUE
+#define PQUESCHEDULER_IMPL_PRTQUEUE
+
 #include "prtqueue.h"
-#include "process.h"
 #include <iostream>
+
+template <class ItemType>
+PrtQueue<ItemType>::PrtQueue(const PrtQueue &other) {
+    levels = other.levels;
+    queSize = other.queSize;
+    pQ = new Queue<ItemType>[levels];
+    for (int i = 0; i < levels; i++) {
+        pQ[i] = other.pQ[i];
+    }
+}
 
 template<class ItemType>
 PrtQueue<ItemType>::~PrtQueue() {
     delete[] pQ;
 }
+
+template <class ItemType>
+PrtQueue<ItemType> &PrtQueue<ItemType>::operator=(const PrtQueue &other) {
+    if (this == &other) {
+        return *this;
+    }
+
+    delete[] pQ;
+
+    levels = other.levels;
+    queSize = other.queSize;
+    pQ = new Queue<ItemType>[levels];
+    for (int i = 0; i < levels; i++) {
+        pQ[i] = other.pQ[i];
+    }
+
+    return *this;
+}
+
 
 template<class ItemType>
 int PrtQueue<ItemType>::IsFull() const {
@@ -36,7 +67,11 @@ void PrtQueue<ItemType>::Insert(ItemType newItem, int prt) {
         std::cout << "Priority out of bounds" << std::endl;
         return;
     }
-    pQ[prt].insert(newItem);
+    if (!pQ[prt].insert(newItem)) {
+
+        std:: cout << "Queue size: " << pQ[prt].isFull() << std::endl;
+        // exit(1);
+    }
 }
 
 template<class ItemType>
@@ -63,4 +98,7 @@ void PrtQueue<ItemType>::Remove(ItemType& item, int prt) {
 
 
 
-template class PrtQueue<Process>;
+
+// template class PrtQueue<Process>;
+
+#endif

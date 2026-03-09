@@ -6,37 +6,32 @@
 #include <vector>
 #include <string>
 
-//handles loading/running/reporting the scheduling simulation
+
 class Scheduler {
 public:
-    //creation of scheduler with given number of priority levels
-    Scheduler(int levels, int queSize);
+    Scheduler(int levels, int queSize);                     // creation of scheduler with given number of priority levels
 
-    //loading processes from input file
-    void loadFromFile(const std::string& filename);     // relies on enQueProcess()
+    void loadFromFile(const std::string& filename);         // loading processes from input file (relies on enQueProcess())
 
-    //running the scheduling simulation
-    void run();
+    void run();                                              // running the scheduling simulation
 
-    //print results/averages
-    void printResults() const;
+    void printResults() const;                              // print results/averages
+
+
 
 private:
 
-    // priority-based insertion
-    void enQueProcess(Process prc);
+    void enQueProcess(Process prc);                         // priority-based insertion
 
-    // priority queue storing processes
-    PrtQueue<Process> task_que;
+    void execute(Process& prc);                             // execute one process
 
-    // stores processes after execution
-    std::vector<Process> completed;
+    PrtQueue<Process> processQueue;                         // priority queue storing processes
 
-    // tracks the current time in simulation
-    int currentTime = 0;
+    std::vector<Process> completed;                         // stores processes after execution
 
-    // the total number of processes loaded
-    int totalProcesses = 0;
+    int currentTime = 0;                                    // tracks the current time in simulation
+
+    int totalProcesses = 0;                                 // the total number of processes loaded
 };
 
 #endif
