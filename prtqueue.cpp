@@ -74,11 +74,23 @@ void PrtQueue<ItemType>::Insert(ItemType newItem, int prt) {
     }
 }
 
+
+// ToDo: Come back to fix this later once done with implementing the low number as high priority execution first (it's easier to test)
+// template<class ItemType>
+// void PrtQueue<ItemType>::Remove(ItemType& item) {
+//     // should remove highest priority item
+//     // assuming higher index = higher priority
+//     for (int i = levels - 1; i > -1; i--) {
+//         if (!pQ[i].isEmpty()) {
+//             pQ[i].remove(item);
+//             return;
+//         }
+//     }
+// }
+
 template<class ItemType>
 void PrtQueue<ItemType>::Remove(ItemType& item) {
-    // should remove highest priority item
-    // assuming higher index = higher priority
-    for (int i = levels - 1; i >= 0; i--) {
+    for (int i = 0; i < levels; i++) {
         if (!pQ[i].isEmpty()) {
             pQ[i].remove(item);
             return;

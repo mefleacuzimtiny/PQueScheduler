@@ -47,6 +47,13 @@ void Scheduler::execute(Process &prc) {
     prc.execQuantums(1);
 }
 
+
+/*
+currentTime = time of first
+repeated call to processQueue.serve(p1) will print a <PID>,<number>_<PID>,<number>_<PID>,<number>_....
+it'll also decrement p1.burst and increment currentTime
+*/
+
 void Scheduler::run() {
     currentTime = 0;
     completed.clear();
