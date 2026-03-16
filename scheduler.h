@@ -28,10 +28,14 @@ private:
     PrtQueue<Process> processQueue;                         // priority queue storing processes
 
     std::vector<Process> completed;                         // stores processes after execution
-
-    int currentTime = 0;                                    // tracks the current time in simulation
+	
+	std::vector<Process> gantt;
 
     int totalProcesses = 0;                                 // the total number of processes loaded
+
+    int currentTime = 0;                                    // tracks the current time in simulation
 };
+
+#include "scheduler.cpp"
 
 #endif

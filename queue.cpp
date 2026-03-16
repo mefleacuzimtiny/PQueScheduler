@@ -98,6 +98,20 @@ int Queue<Type>::insert(const Type &newItem) {
     return 1;
 }
 
+
+template<class Type>
+int Queue<Type>::push(const Type& newItem ) {
+	if (isFull()) {
+		std::cout << "Queue is Full!" << '\n';
+		return 0;
+	}
+	
+	front = (front - 1) % maxQue;
+	items[front] = newItem;
+	count++;
+	return 1;
+}
+
 template<class Type>
 int Queue<Type>::remove(Type &removedItem) {
     if (isEmpty()) {
@@ -109,6 +123,28 @@ int Queue<Type>::remove(Type &removedItem) {
     front = (front + 1) % maxQue;   // circular increment
     count--;
     return 1;
+}
+
+template<class Type>
+int Queue<Type>::peek(Type &retrievedItem) {
+	if (isEmpty()) {
+		std::cout << "Queue is Empty!" << '\n';
+		return 0;
+	}
+	
+	retrievedItem = items[front];
+	return 1;
+}
+
+template<class Type>
+int Queue<Type>::serve() {
+	if (isEmpty()) {
+		std::cout << "Queue is Empty!" << '\n';
+		return 0;
+	}
+	
+	items[front]--;
+	return 1;
 }
 
 

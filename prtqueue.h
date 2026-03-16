@@ -37,6 +37,10 @@ public:
     // Should call Que class Remove() to remove highest priority item
     void Remove(ItemType& item);
     void Remove(ItemType& item, int prt);		// removes from a specific level
+	void Peek(ItemType& item);
+	void Push(const ItemType& item, int prt);
+	
+	void Serve();
 
 private:
 

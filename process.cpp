@@ -58,6 +58,22 @@ std::ostream& operator<<(std::ostream& out, const Process& p) {
     return out;
 }
 
+Process& Process::operator--() {
+	if (timeExecution > 0)
+		--timeExecution;
+	return *this;
+}
+Process Process::operator--(int) {
+	Process temp = *this;
+	
+	if (timeExecution > 0)
+		timeExecution--;
+	
+	return temp;
+}
+
+
+
 int Process::getPID() const {
     return PID;
 }
@@ -78,9 +94,13 @@ int Process::getTimeExecution() const {
     return timeExecution;
 }
 
-void Process::execQuantums(int quantums) {
-    timeExecution -= quantums;
+void Process::setTimeExecution(int newTimeExecution) {
+	timeExecution = newTimeExecution;
 }
+
+//void Process::execQuantums(int quantums) {
+//    timeExecution -= quantums;
+//}
 
 int Process::getPrtLvl() const {
     return prtLvl;

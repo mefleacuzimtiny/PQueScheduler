@@ -29,8 +29,14 @@ public:
     bool isEmpty() const;
 
     int insert(const Type& newItem);
+	
+	int push(const Type& newItem );
 
     int remove(Type& removedItem);
+	
+	int peek(Type& retrievedItem);
+	
+	int serve();				// this function requires that the -- operator is overloaded on whatever datatype is passed to the template
 };
 
 #include "queue.cpp"

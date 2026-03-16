@@ -44,7 +44,7 @@ void test(int n) {
 
     scheduler.loadFromFile("input" + std::to_string(n) + ".csv");
 
-    scheduler.run();
+//    scheduler.run();
 
     scheduler.printResults();
 }
@@ -58,12 +58,38 @@ int main() {
     genTestFile(1000);
     genTestFile(10000);
 
-    test(7);
+//    test(7);
     // test(10);
     // test(100);
     // test(500);
     // test(1000);
     // test(10000);
 
+	PrtQueue<int> abc(10);
+	abc.Push(52, 0);
+	abc.Push(1, 1);
+	abc.Push(77, 1);
+	abc.Push(69, 2);
+	
+	abc.Serve();
+	
+	int toPrint;
+	abc.Remove(toPrint);
+	
+	std::cout << "Served item at first queue's value: " << toPrint << '\n';
+	abc.Serve();
+	abc.Remove(toPrint);
+	
+	std::cout << "Served item at first queue's value: " << toPrint << '\n';
+	abc.Serve();
+	abc.Remove(toPrint);
+	
+	std::cout << "Served item at first queue's value: " << toPrint << '\n';
+	abc.Serve();
+	abc.Remove(toPrint);
+	
+	std::cout << "Served item at first queue's value: " << toPrint << '\n';
+	abc.Serve();
+	
     return 0;
 }
