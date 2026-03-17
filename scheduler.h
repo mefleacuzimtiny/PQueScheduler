@@ -1,41 +1,45 @@
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 
-#include "prtqueue.h"
-#include "process.h"
-#include <vector>
-#include <string>
 
+// ==========================================
+// 4. Scheduler Implementation
+// ==========================================
+
+
+#include "process.h"
+#include "prtqueue.h"
 
 class Scheduler {
-public:
-    Scheduler(int levels, int queSize);                     // creation of scheduler with given number of priority levels
-
-    void loadFromFile(const std::string& filename);         // loading processes from input file (relies on enQueProcess())
-
-    void run();                                              // running the scheduling simulation
-
-    void printResults() const;                              // print results/averages
-
-
-
 private:
-
-    void enQueProcess(Process prc);                         // priority-based insertion
-
-    void execute(Process& prc);                             // execute one process
-
-    PrtQueue<Process> processQueue;                         // priority queue storing processes
-
-    std::vector<Process> completed;                         // stores processes after execution
-	
-	std::vector<Process> gantt;
-
-    int totalProcesses = 0;                                 // the total number of processes loaded
-
-    int currentTime = 0;                                    // tracks the current time in simulation
+    int levels;
+    int maxProcesses;
+    Process* loadedProcesses;
+    PrtQueue<Process> readyQueue;
+    
+    GanttEntry* gantt;
+    int ganttCapacity;
+    unsigned int ganttCount;
+    
+    void addGanttEntry(int start, int end, const std::string& pid);
+    
+public:
+    Scheduler(int lvl, int n);
+    
+    ~Scheduler();
+    
+    void loadFromFile(const std::string& filename);
+    
+    void run();
+    
+    void genGantt();
+    
+    // NEW: Method to print the requested table
+    void printTable();
+    
+    void printSummary();
+    
+    void printResults();
 };
 
-#include "scheduler.cpp"
-
-#endif
+#endif // SCHEDULER_H

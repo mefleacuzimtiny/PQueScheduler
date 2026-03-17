@@ -6,10 +6,24 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(PQueScheduler main.cpp
-    scheduler.h scheduler.cpp
-    queue.h queue.cpp
-    prtqueue.h prtqueue.cpp
-    process.h process.cpp)
+    process.h
+    semideque.h
+    semideque.cpp
+    process.cpp
+    prtqueue.h
+    prtqueue.cpp
+    scheduler.h
+    scheduler.cpp
+
+
+
+
+
+
+
+
+
+)
 
 include(GNUInstallDirs)
 install(TARGETS PQueScheduler
